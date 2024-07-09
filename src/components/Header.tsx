@@ -2,17 +2,20 @@ import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
 
+import NavItem from "./NavItem";
+
+import { routes } from "@/lib/constants";
+
 export default function Header() {
   return (
-    <header>
+    <header className="flex justify-between items-center border-b border-white/10 h-14 md:px-9 px-3">
       <Logo />
       <nav>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/events/all">All Events</Link>
-        </li>
+        <ul className="flex gap-x-6 text-sm">
+          {routes.map((route) => (
+            <NavItem key={route.path} href={route.path} label={route.name} />
+          ))}
+        </ul>
       </nav>
     </header>
   );
