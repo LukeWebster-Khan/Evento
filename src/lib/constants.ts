@@ -19,3 +19,6 @@ export const footerRoutes = [
     name: "Privacy Policy",
   },
 ];
+
+export const EVENTS_API_PATH =
+  "https://bytegrad.com/course-assets/projects/evento/api/events";

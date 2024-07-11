@@ -1,8 +1,8 @@
 "use client";
-import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 type NavItemProps = {
   href: string;
@@ -11,10 +11,9 @@ type NavItemProps = {
 
 export default function NavItem({ href, label }: NavItemProps) {
   const activePathName = usePathname();
-  console.log(activePathName);
   return (
     <li
-      className={clsx(
+      className={cn(
         `text-white/50 relative hover:text-white transition flex items-center`,
         {
           "text-white/100": activePathName === href,
