@@ -1,5 +1,6 @@
 import H1 from "@/components/H1";
-import { EVENTS_API_PATH } from "@/lib/constants";
+import { getEvent } from "@/lib/utils";
+import { Metadata } from "next";
 import Image from "next/image";
 import React from "react";
 
@@ -9,9 +10,16 @@ type TEventPageProps = {
   };
 };
 
+export async function generateMetadata({
+  params,
+}: TEventPageProps): Promise<Metadata> {
+  const event = await getEvent(params.slug);
+  return {
+    title: `${event.name}`,
+  };
+}
 export default async function EventPage({ params }: TEventPageProps) {
-  const res = await fetch(`${EVENTS_API_PATH}events/${params.slug}`);
-  const event = await res.json();
+  const event = await getEvent(params.slug);
 
   return (
     <main>
@@ -59,9 +67,7 @@ export default async function EventPage({ params }: TEventPageProps) {
         </Section>
         <Section>
           <SectionHeading>Location</SectionHeading>
-          <SectionContent>
-            {event.location}
-          </SectionContent>
+          <SectionContent>{event.location}</SectionContent>
         </Section>
       </div>
     </main>

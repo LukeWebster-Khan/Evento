@@ -1,9 +1,9 @@
+import { Suspense } from "react";
+
 import EventsList from "@/components/events-list";
 import H1 from "@/components/H1";
-
-import { EVENTS_API_PATH } from "@/lib/constants";
-import { TEvent } from "@/lib/types";
-import { sleep } from "@/lib/utils";
+import Loading from "./loading";
+import { captializeFirstLetter } from "@/lib/utils";
 
 type EventsPageProps = {
   params: {
@@ -11,11 +11,17 @@ type EventsPageProps = {
   };
 };
 
+export function generateMetadata({ params }: EventsPageProps) {
+  const city = params.city;
+  return {
+    title: `${
+      city === "all" ? "All Events" : `Events in ${captializeFirstLetter(city)}`
+    }`,
+  };
+}
+
 export default async function EventsPage({ params }: EventsPageProps) {
   const city = params.city;
-  await sleep(1000);
-  const res = await fetch(`${EVENTS_API_PATH}?city=${city}`);
-  const events: TEvent[] = await res.json();
 
   return (
     <main className="flex flex-col items-center py-24 px-[20px] min-h-[110vh]">
@@ -28,7 +34,9 @@ export default async function EventsPage({ params }: EventsPageProps) {
           </>
         )}
       </H1>
-      <EventsList events={events} />
+      <Suspense fallback={<Loading />}>
+        <EventsList city={city} />
+      </Suspense>
     </main>
   );
 }

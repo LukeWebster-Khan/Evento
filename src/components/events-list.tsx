@@ -1,11 +1,8 @@
-import { TEvent } from "@/lib/types";
 import EventCard from "./event-card";
+import { fetchEvents } from "@/lib/utils";
 
-type EventsListProps = {
-  events: TEvent[];
-};
-
-export default function EventsList({ events }: EventsListProps) {
+export default async function EventsList({ city }: { city: string }) {
+  const events = await fetchEvents(city);
   return (
     <>
       <section className="flex flex-wrap max-w-[1100px] gap-10 justify-center px-[20px]">
