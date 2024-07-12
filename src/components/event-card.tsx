@@ -1,13 +1,28 @@
+"use client";
+
 import { TEvent } from "@/lib/types";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useRef } from "react";
 
 export default function EventCard({ event }: { event: TEvent }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["0 1", "1.5 1"],
+  });
+  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
+  const MotionLink = motion(Link);
   return (
-    <Link
+    <MotionLink
+      ref={ref}
       className="flex-1 basis-80 h-[380px] max-w-[500px]"
       href={`/event/${event.slug}`}
+      // @ts-ignore
+      style={{ scale: scaleProgress, opacity: opacityProgress }}
+      initial={{ scale: 0, opacity: 0.8 }}
     >
       <section
         key={event.id}
@@ -34,6 +49,6 @@ export default function EventCard({ event }: { event: TEvent }) {
           </p>
         </section>
       </section>
-    </Link>
+    </MotionLink>
   );
 }

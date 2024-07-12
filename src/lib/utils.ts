@@ -1,7 +1,6 @@
 import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { EVENTS_API_PATH } from "./constants";
-import { TEvent } from "./types";
+import prisma from "./db";
 
 export function cn(...classes: ClassValue[]) {
   return twMerge(clsx(classes));
@@ -16,13 +15,22 @@ export function captializeFirstLetter(string: string) {
 }
 
 export async function fetchEvents(city: string) {
-  const res = await fetch(`${EVENTS_API_PATH}?city=${city}`);
-  const events: TEvent[] = await res.json();
+  const events = await prisma.eventoEvent.findMany({
+    where: {
+      city: city === "all" ? undefined : captializeFirstLetter(city),
+    },
+    orderBy: {
+      date: "asc",
+    },
+  });
   return events;
 }
 
 export async function getEvent(slug: string) {
-  const res = await fetch(`${EVENTS_API_PATH}/${slug}`);
-  const event: TEvent = await res.json();
+  const event = await prisma.eventoEvent.findUnique({
+    where: {
+      slug: slug,
+    },
+  });
   return event;
 }
