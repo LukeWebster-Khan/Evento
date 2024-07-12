@@ -6,6 +6,10 @@
   @apply hover:scale-105 active:scale-[1.02] transition focus:scale-105;
 }
 
+.pagination-button {
+  @apply text-white flex items-center px-5 gap-x-2 py-3 bg-white/5 rounded-md opacity-75 hover:opacity-100 transition text-sm;
+}
+
 /* SCROLLBAR STYLING */
 /* Chrome, Edge, and Safari */
 ::-webkit-scrollbar {

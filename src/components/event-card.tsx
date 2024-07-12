@@ -6,7 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useRef } from "react";
 
-export default function EventCard({ event }: { event: TEvent }) {
+type EventCardProps = {
+  event: TEvent;
+};
+
+export default function EventCard({ event }: EventCardProps) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,

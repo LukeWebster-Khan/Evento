@@ -1,10 +1,10 @@
 export type TEvent = {
-  id: string;
+  id: number;
   name: string;
   slug: string;
   city: string;
   location: string;
-  date: string;
+  date: string | Date;
   organizerName: string;
   imageUrl: string;
   description: string;
